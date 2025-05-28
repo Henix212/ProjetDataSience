@@ -10,13 +10,16 @@ def deleteEmptyColumns(dataFrame: pd.DataFrame, seuil: float = 0.25) -> pd.DataF
     :param seuil: Seuil maximum de NaN autorisé (entre 0 et 1). Défaut : 0.25 (25%)
     :return: Le DataFrame nettoyé.
     """
-    # 1. Supprimer les colonnes 100% NaN
+    # 1. Delete 100% NaN columns
     df_cleaned = dataFrame.dropna(axis=1, how='all')
 
-    # 2. Supprimer les colonnes ayant plus de `seuil` de valeurs NaN
+    # 2. Delete columns with a `seuil` of NaN values
     seuil_valide = df_cleaned.shape[0] * seuil
     df_final = df_cleaned.loc[:, df_cleaned.isna().sum() <= seuil_valide]
-
+    
+    # 3. Delete columns with only one unique value
+    df_final = df_final.drop(columns=df_final.columns[df_final.nunique(dropna=False) <= 1], axis=1)
+    
     return df_final
 
 def deleteEmptyRows(dataFrame: pd.DataFrame) -> pd.DataFrame:
