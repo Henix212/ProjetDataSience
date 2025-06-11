@@ -31,8 +31,6 @@ def deleteEmptyRows(dataFrame: pd.DataFrame) -> pd.DataFrame:
     """
     return dataFrame.dropna(axis=0, how='any').reset_index(drop=True)
 
-import pandas as pd
-
 def dateReformatage(dataFrame: pd.DataFrame) -> pd.DataFrame:
     """
     Reformate les dates du DataFrame en format datetime Pandas.
